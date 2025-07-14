@@ -3,10 +3,15 @@ package main
 import (
 	"learn-go/db"
 	"learn-go/stringops"
+	"log"
 )
 
 func main() {
-	db.DB = "postgres"
-	db.Insert()
+	c, err := db.NewConn("postgres")
+	if err != nil {
+		log.Fatal(err)
+	}
+	c.Insert()
 	stringops.TrimAndUpper("   hello    ")
+
 }
