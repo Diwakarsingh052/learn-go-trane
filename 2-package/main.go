@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	db.DB = "postgres"
 	db.Insert()
 	stringops.TrimAndUpper("   hello    ")
 }
