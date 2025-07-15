@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	// don't use this pattern with buffered channels
 	get := make(chan string)
 	post := make(chan string)
 	put := make(chan string)
