@@ -13,7 +13,7 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for i := 1; i <= 5; i++ {
+		for i := 1; i <= 5000000; i++ {
 			//we need to block our goroutine before closing the channel
 			//because we want to make sure all the work
 			// is done and finished
