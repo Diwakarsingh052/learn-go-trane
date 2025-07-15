@@ -10,6 +10,7 @@ func main() {
 	wg := &sync.WaitGroup{}
 
 	ch := make(chan int)
+	ch <- 10
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
