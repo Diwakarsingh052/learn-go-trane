@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"sync"
 )
 
 // Theater represents a theater with a specific number of seats
+var wg = new(sync.WaitGroup)
+var wgBook = new(sync.WaitGroup)
+
 type Theater struct {
 	seats   int          // Total seats available in the theater
 	invoice chan string  // Channel to store the name of the person whose seat is booked
@@ -46,6 +50,51 @@ func (t *Theater) bookSeat(name string) {
 		fmt.Println("No seats available for", name) // Inform that no seats are available
 	}
 }
+
+// printInvoice method prints the invoice for all booked seats
+func (t *Theater) printInvoice() {
+	defer wg.Done() // Decrement the counter when func is done executing
+
+	for name := range t.invoice {
+		fmt.Printf("Invoice is sent to %s\n", name)
+	}
+}
+
 func main() {
+	t := Theater{
+		seats: 2, // With 2 seat
+		// using unbuffered chan, if using buffered chan, don't use select for recv values from the channel
+		invoice: make(chan string), // Create the invoice channel //
+	}
+
+	// Start checkSeat routines
+	for i := 1; i <= 6; i++ {
+		wg.Add(1) // Increment wait group counter
+		go t.checkSeats()
+	}
+
+	// Start bookSeat routines
+	for i := 1; i <= 3; i++ {
+		wgBook.Add(1) // Increment wait group counter
+		go t.bookSeat("User " + strconv.Itoa(i))
+	}
+
+	// Start checkSeat routines
+	for i := 1; i <= 6; i++ {
+		wg.Add(1) // Increment wait group counter
+		go t.checkSeats()
+	}
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		wgBook.Wait()
+		close(t.invoice)
+
+		wg.Add(1)
+		go t.printInvoice()
+
+		wg.Wait()
+	}()
 
 }
