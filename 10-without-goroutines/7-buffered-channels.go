@@ -18,7 +18,6 @@ func main() {
 	}()
 
 	for i := 1; i <= 5; i++ {
-
 		x := <-ch
 		fmt.Println(x)
 
