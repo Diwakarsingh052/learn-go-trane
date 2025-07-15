@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 type user struct {
 	name string
@@ -10,6 +13,7 @@ type user struct {
 type users map[int]user
 
 func main() {
+	runtime.GOMAXPROCS(1)
 	u := users{1: user{"john", 20}, 2: user{"jane", 21}}
 
 	usr, ok := u[1] // ok would be true if user is found
