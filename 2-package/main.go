@@ -14,4 +14,7 @@ func main() {
 	c.Insert()
 	stringops.TrimAndUpper("   hello    ")
 
+	//log.New
+	//os.OpenFile()
+
 }

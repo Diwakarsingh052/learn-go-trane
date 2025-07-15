@@ -13,8 +13,11 @@ import (
 //var DB string = "mysql"
 
 type Conn struct {
-	db string
+	db string // no one can change this outside the current package
 }
+
+// create a NewFunc to initialize the struct fields which are not
+// exported
 
 func NewConn(db string) (Conn, error) {
 	if db == "" {

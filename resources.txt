@@ -1,4 +1,4 @@
 
-style guide
-ddd guide
+style guide:- https://google.github.io/styleguide/go/best-practices
+https://threedots.tech/post/introducing-clean-architecture/
 pkg.go.dev
