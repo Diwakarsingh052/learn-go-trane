@@ -36,6 +36,8 @@ func main() {
 
 	wg.Add(1)
 	go func() {
+		// tracking when all the work is finished,
+		// once work is finished, we will send signal to done chan
 		defer wg.Done()
 		wgWorker.Wait()
 		close(done)
@@ -60,6 +62,9 @@ func main() {
 				fmt.Println(x)
 			case x := <-put:
 				fmt.Println(x)
+
+				// we will receive a close signal when all
+				// go routines finished sending
 			case <-done:
 				fmt.Println("all goroutines are done")
 				return
