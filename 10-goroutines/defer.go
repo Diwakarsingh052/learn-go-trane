@@ -16,9 +16,16 @@ func main() {
 	//fmt.Println(3)
 
 	f, err := os.Open("test.txt")
-	defer f.Close()
 	if err != nil {
 		log.Println(err)
 		return
 	}
+	defer func() {
+		err := f.Close()
+		if err != nil {
+			log.Println(err)
+			return
+		}
+	}()
+
 }
