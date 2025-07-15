@@ -38,9 +38,15 @@ func main() {
 	//fmt.Println(<-put)
 
 	select {
+	//whichever case is not blocking exec that first
+	//whichever case is ready first, exec that.
+	// possible cases are chan recv , send , default
 	case x := <-get:
 		fmt.Println(x)
-
+	case x := <-post:
+		fmt.Println(x)
+	case x := <-put:
+		fmt.Println(x)
 	}
 	wg.Wait()
 }
