@@ -9,9 +9,9 @@ func main() {
 	// don't use this pattern with buffered channels
 	// if you want to use a buffered channel, then use range to receive the remaining value
 	// select is used when we want to listen or send values to over a multiple channel
-	get := make(chan string, 1)
-	post := make(chan string, 1)
-	put := make(chan string, 1)
+	get := make(chan string)
+	post := make(chan string)
+	put := make(chan string)
 	done := make(chan struct{})
 	wg := &sync.WaitGroup{}
 	wgWorker := &sync.WaitGroup{}
