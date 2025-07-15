@@ -9,9 +9,11 @@ func main() {
 	wg := new(sync.WaitGroup)
 
 	for i := 1; i <= 5; i++ {
+		// adding one to the counter in each iteration
 		wg.Add(1)
 		go work(i, wg)
 	}
+	// waiting for goroutines
 	wg.Wait()
 
 }
