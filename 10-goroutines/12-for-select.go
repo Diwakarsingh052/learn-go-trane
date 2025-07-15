@@ -10,47 +10,63 @@ func main() {
 	get := make(chan string)
 	post := make(chan string)
 	put := make(chan string)
+	done := make(chan struct{})
 	wg := &sync.WaitGroup{}
-
-	wg.Add(1)
+	wgWorker := &sync.WaitGroup{}
+	wgWorker.Add(1)
 	go func() {
-		defer wg.Done()
+		defer wgWorker.Done()
 		time.Sleep(3 * time.Second)
 		get <- "get"
+		get <- "get 2"
 	}()
 
-	wg.Add(1)
+	wgWorker.Add(1)
 	go func() {
-		defer wg.Done()
+		defer wgWorker.Done()
 		time.Sleep(1 * time.Second)
 		post <- "post"
 	}()
 
+	wgWorker.Add(1)
+	go func() {
+		defer wgWorker.Done()
+		put <- "put"
+	}()
+
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		put <- "put"
+		wgWorker.Wait()
+		close(done)
 	}()
 
 	//fmt.Println(<-get)
 	//
 	//fmt.Println(<-post)
 	//fmt.Println(<-put)
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for {
 
-	for i := 0; i < 3; i++ {
+			select {
+			//whichever case is not blocking exec that first
+			//whichever case is ready first, exec that.
+			// possible cases are chan recv , send , default
+			case x := <-get:
+				fmt.Println(x)
+			case x := <-post:
+				fmt.Println(x)
+			case x := <-put:
+				fmt.Println(x)
+			case <-done:
+				fmt.Println("all goroutines are done")
+				return
 
-		select {
-		//whichever case is not blocking exec that first
-		//whichever case is ready first, exec that.
-		// possible cases are chan recv , send , default
-		case x := <-get:
-			fmt.Println(x)
-		case x := <-post:
-			fmt.Println(x)
-		case x := <-put:
-			fmt.Println(x)
-
+			}
 		}
-	}
+	}()
+
 	wg.Wait()
 }
