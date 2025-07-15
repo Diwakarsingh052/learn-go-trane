@@ -17,6 +17,9 @@ func main() {
 	go func() {
 		defer wg.Done()
 		x := slowFunc()
+		// we will send the value only if the reciver is present
+		// if ctx deadline exceeds or cancelled it means receiver is not there
+		// in that case we do cleanup if required and quit
 		select {
 		case <-ctx.Done():
 			fmt.Println("sender goroutine, doing cleanup", ctx.Err())
