@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"sync"
+	"time"
 )
 
 // Theater represents a theater with a specific number of seats
@@ -41,7 +42,7 @@ func (t *Theater) bookSeat(name string) {
 	if t.seats > 0 {
 		// Simulate a seat booking-making process
 		fmt.Println("Seat is available for", name)
-		//time.Sleep(2 * time.Second)
+		time.Sleep(2 * time.Second)
 		fmt.Println("Booking confirmed", name)
 
 		t.seats--         // Decrement available seats
@@ -90,11 +91,10 @@ func main() {
 		defer wg.Done()
 		wgBook.Wait()
 		close(t.invoice)
-
-		wg.Add(1)
-		go t.printInvoice()
-
-		wg.Wait()
 	}()
+
+	wg.Add(1)
+	go t.printInvoice()
+	wg.Wait()
 
 }
