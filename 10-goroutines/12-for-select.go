@@ -3,21 +3,22 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 func main() {
 	// don't use this pattern with buffered channels
-	get := make(chan string)
-	post := make(chan string)
-	put := make(chan string)
+	// if you want to use a buffered channel, then use range to receive the remaining value
+	// select is used when we want to listen or send values to over a multiple channel
+	get := make(chan string, 1)
+	post := make(chan string, 1)
+	put := make(chan string, 1)
 	done := make(chan struct{})
 	wg := &sync.WaitGroup{}
 	wgWorker := &sync.WaitGroup{}
 	wgWorker.Add(1)
 	go func() {
 		defer wgWorker.Done()
-		time.Sleep(3 * time.Second)
+		//time.Sleep(3 * time.Second)
 		get <- "get"
 		get <- "get 2"
 	}()
@@ -25,7 +26,7 @@ func main() {
 	wgWorker.Add(1)
 	go func() {
 		defer wgWorker.Done()
-		time.Sleep(1 * time.Second)
+		//time.Sleep(1 * time.Second)
 		post <- "post"
 	}()
 
@@ -41,6 +42,8 @@ func main() {
 		// once work is finished, we will send signal to done chan
 		defer wg.Done()
 		wgWorker.Wait()
+
+		// close is a send signal
 		close(done)
 	}()
 
