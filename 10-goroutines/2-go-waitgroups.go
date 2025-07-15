@@ -19,7 +19,7 @@ func main() {
 	go func() {
 		time.Sleep(time.Second * 2)
 		fmt.Println("hello world")
-		wg.Done()
+		wg.Done() // decrement the counter by one
 	}()
 	fmt.Println("doing more things in main")
 	wg.Wait() // it will block until counter is not 0
