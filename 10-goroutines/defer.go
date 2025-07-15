@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"os"
 )
 
 func main() {
@@ -9,8 +10,15 @@ func main() {
 	// defer statements gives guarantee of exec , once registered
 	// defer maintains the stack
 	// first in last out
-	defer fmt.Println(1)
-	defer fmt.Println(2)
-	panic("")
-	fmt.Println(3)
+	//defer fmt.Println(1)
+	//defer fmt.Println(2)
+	//panic("")
+	//fmt.Println(3)
+
+	f, err := os.Open("test.txt")
+	defer f.Close()
+	if err != nil {
+		log.Println(err)
+		return
+	}
 }
