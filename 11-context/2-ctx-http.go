@@ -25,10 +25,13 @@ func main() {
 	}
 	_ = resp //
 
+	// reading resp body
 	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// printing the body in string
 	fmt.Println(string(bytes))
 
 }
