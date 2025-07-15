@@ -6,6 +6,7 @@ import (
 )
 
 // go run -race 13-mutex.go
+// maps are not safe for concurrent access, use mutex for safe operations
 var x int = 1
 
 func main() {
