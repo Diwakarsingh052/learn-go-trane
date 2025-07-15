@@ -18,5 +18,9 @@ func main() {
 
 func work(id int, wg *sync.WaitGroup) {
 	defer wg.Done()
+
 	fmt.Println("work is going on", id)
+	go func() {
+		fmt.Println("sub work is going on", id)
+	}()
 }
