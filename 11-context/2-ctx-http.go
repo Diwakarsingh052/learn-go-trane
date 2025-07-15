@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"time"
@@ -21,6 +23,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	_ = resp
+	_ = resp //
+
+	bytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(bytes))
 
 }
