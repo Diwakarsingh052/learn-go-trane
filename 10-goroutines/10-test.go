@@ -20,13 +20,13 @@ func main() {
 				ch <- i
 			}()
 		}
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			wgWorker.Wait()
+			close(ch)
+		}()
 
-	}()
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		wgWorker.Wait()
-		close(ch)
 	}()
 
 	for v := range ch {
