@@ -26,6 +26,10 @@ func (f File) Read(b []byte) (int, error) {
 	return 0, nil
 }
 
+func (f File) abc() {
+	fmt.Println("abc")
+}
+
 type IO struct {
 	name string
 }
@@ -37,6 +41,13 @@ func (i IO) Read(b []byte) (int, error) {
 
 func ReadSomething(r Reader) {
 	n, err := r.Read(nil)
+	fmt.Printf("%#v\n", r)
+	//f := r.(File) // type assertion
+	//checking if file object is present in the interface or not
+	f, ok := r.(File) // ok would be true if the file object is part of the interface
+	if ok {
+		f.abc()
+	}
 
 	_, _ = n, err
 }
