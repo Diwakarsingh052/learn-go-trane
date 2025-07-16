@@ -48,6 +48,11 @@ func TestSumIntV2(t *testing.T) {
 			input: []int{1, 2, 3, 4, 5},
 			want:  15,
 		},
+		{
+			name:  "nil slice",
+			input: nil,
+			want:  0,
+		},
 	}
 
 	for _, tc := range tt {
