@@ -6,7 +6,7 @@ import (
 
 // TypeDescriber is a simple function that takes any value and prints a description
 // based on its type using a type switch
-func TypeDescriber(v interface{}) {
+func TypeDescriber(v any) {
 	// Using type switch to handle different types
 	switch x := v.(type) {
 	case nil:
