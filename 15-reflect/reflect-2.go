@@ -18,7 +18,8 @@ var jsonData = []byte(`{
 		"1": 1
 	}`)
 
-func (i info) UnmarshalJSON(data []byte) error {
+func (i *info) UnmarshalJSON(data []byte) error {
+	fmt.Println("unmarshaling")
 	rawMap := make(map[string]any)
 
 	// Unmarshal the data from JSON into rawMap
