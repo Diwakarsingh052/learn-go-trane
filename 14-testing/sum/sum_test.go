@@ -5,6 +5,9 @@ import (
 	"testing"
 )
 
+// function names must start with word Test to signal it is a test
+// file name must have _test.go to register a file as a test
+// go test ./... // run all the tests for the project
 func TestSumInt(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5}
 	want := 15
@@ -27,9 +30,14 @@ func TestSumInt(t *testing.T) {
 }
 
 func TestSumIntV2(t *testing.T) {
+	// Figure out two things
+	// What are inputs (parameters)
+	// Expected output
+
 	//type args struct {
 	//	vs []int
 	//}
+	// each index in slice would represent one test case
 	tt := []struct {
 		name  string
 		input []int
@@ -43,6 +51,8 @@ func TestSumIntV2(t *testing.T) {
 	}
 
 	for _, tc := range tt {
+
+		// t.Run creates a subtest, you can run each index of slice as a subtest
 		t.Run(tc.name, func(t *testing.T) {
 			got := SumInt(tc.input)
 			require.Equal(t, tc.want, got)
