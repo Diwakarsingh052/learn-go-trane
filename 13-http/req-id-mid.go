@@ -25,10 +25,11 @@ func main() {
 
 func Hello(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	reqId := ctx.Value(ReqKey)
-	if reqId == nil {
+	reqId, ok := ctx.Value(ReqKey).(string)
+	if !ok {
 		reqId = "unknown"
 	}
+
 	//fmt.Println(reqId)
 	//if !ok {
 	//	reqId = "unknown"
@@ -45,7 +46,7 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 
 func RequestId(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		reqId := uuid.New()
+		reqId := uuid.NewString()
 		fmt.Println("req started with ", reqId)
 		ctx := r.Context()
 		ctx = context.WithValue(ctx, ReqKey, reqId)
