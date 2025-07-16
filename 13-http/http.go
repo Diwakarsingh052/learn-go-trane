@@ -77,7 +77,7 @@ func recvJson(w http.ResponseWriter, r *http.Request) {
 	}
 	//r.URL.Query().Get("name") // reading the query param
 	// r.Header.Get("Content-Type") // request header
-	body, err := io.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body) // read the body from the request
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
