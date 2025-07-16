@@ -9,7 +9,7 @@ import (
 
 type key string
 
-const reqKey key = "reqId"
+const ReqKey key = "reqId"
 
 // go get moduleName
 // get all deps for the project
@@ -25,11 +25,14 @@ func main() {
 
 func Hello(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	reqId, ok := ctx.Value(reqKey).(string)
-	fmt.Println(reqId)
-	if !ok {
+	reqId := ctx.Value(ReqKey)
+	if reqId == nil {
 		reqId = "unknown"
 	}
+	//fmt.Println(reqId)
+	//if !ok {
+	//	reqId = "unknown"
+	//}
 
 	fmt.Println("req processed, sent a response ", reqId)
 	w.Write([]byte("Hello World"))
@@ -45,7 +48,7 @@ func RequestId(next http.HandlerFunc) http.HandlerFunc {
 		reqId := uuid.New()
 		fmt.Println("req started with ", reqId)
 		ctx := r.Context()
-		ctx = context.WithValue(ctx, reqKey, reqId)
+		ctx = context.WithValue(ctx, ReqKey, reqId)
 		//withContext would update the internal context of the request object
 		//with the updated context with values or timeouts
 		next(w, r.WithContext(ctx))
