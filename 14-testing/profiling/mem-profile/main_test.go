@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func BenchmarkAnalyzeText(b *testing.B) {
 	for i := 0; i < b.N; i++ {
@@ -20,7 +22,7 @@ func BenchmarkAnalyzeText(b *testing.B) {
 //710 allocs/op: This means that every execution of the benchmarked function resulted in 710 allocations from the heap (allocs/op stands for "heap allocations per operation"). This gives an insight into how much work the garbage collector will need to do as a result of running this function.
 
 //below command generates memory profile
-//go test -run none -bench . -benchtime 3s -benchmem -v -memprofile p.out
+//go test -run none -bench . -benchtime 3s -benchmem -v -memprofile p.out -gcflags=-m=1
 // go tool pprof p.out
 // list AnalyzeText
 // top 5
@@ -34,4 +36,5 @@ func BenchmarkOptimizedAnalyzeText(b *testing.B) {
 			b.Errorf("Error analyzing text: %v", err)
 		}
 	}
+
 }
